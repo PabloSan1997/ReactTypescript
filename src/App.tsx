@@ -1,4 +1,6 @@
 import React from 'react'
+import type {MouseEventHandler} from 'react'
+
 import { Header } from './components/Header'
 import { RandomFox } from './components/RandomFox'
 import "./app.css"
@@ -8,17 +10,29 @@ type ImageItems={ id: string, url: string }[];
 function App() {
   //const image: string = `https://randomfox.ca/images/${randomNumber()}.jpg`;
   const [image, setImage] = React.useState<ImageItems>([
-    { id: random().toString(), url: `https://randomfox.ca/images/${randomNumber()}.jpg` },
-    { id: random().toString(), url: `https://randomfox.ca/images/${randomNumber()}.jpg` },
-    { id: random().toString(), url: `https://randomfox.ca/images/${randomNumber()}.jpg` },
-    { id: random().toString(), url: `https://randomfox.ca/images/${randomNumber()}.jpg` }
+    
   ]);
 
+  const addNewFox:MouseEventHandler = (e):void=>{
+    e.preventDefault();
+    const newImageItems =  { id: random().toString(), url: `https://randomfox.ca/images/${randomNumber()}.jpg`};
+    setImage([
+      ...image, newImageItems
+    ]);
+  }
   return (
     <div className="App">
       <Header />
+      <button className="boton addfox" onClick={(e)=>addNewFox(e)}>Agragar zorro</button>
       {image.map((element) =>
-        (<RandomFox image={element.url} id={element.id} key={element.id} />)
+        (<RandomFox 
+          image={element.url} 
+          className="foto" 
+          id={element.id} 
+          key={element.id} 
+          onClick={()=>console.log("hola a todos")}
+          alt="zorros"
+          />)
       )}
     </div>
   )
